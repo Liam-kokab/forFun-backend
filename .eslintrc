@@ -1,0 +1,56 @@
+{
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "allowImportExportEverywhere": true
+  },
+  "extends": ["prettier", "prettier"],
+  "plugins": ["graphql"],
+  "env": {
+    "browser": false,
+    "node": true
+  },
+  "globals": {
+    "LOCAL_CONFIG": "readonly"
+  },
+  "rules": {
+    "max-len": [
+      2,
+      150,
+      {
+        "ignoreComments": true,
+        "ignoreUrls": true
+      }
+    ],
+    "no-else-return": [
+      "error",
+      {
+        "allowElseIf": true
+      }
+    ],
+    "import/no-named-as-default": "off",
+    "import/prefer-default-export": "off",
+    "no-mixed-operators": [
+      "error",
+      {
+        "groups": [
+          ["&", "|", "^", "~", "<<", ">>", ">>>"],
+          ["==", "!=", "===", "!==", ">", ">=", "<", "<="],
+          ["&&", "||"],
+          ["in", "instanceof"]
+        ],
+        "allowSamePrecedence": true
+      }
+    ],
+    "object-curly-spacing": [ "error", "always" ],
+    "array-bracket-spacing": [ "error", "always" ],
+    "quotes": [ "error", "single" ],
+    "linebreak-style": [ "error", "unix" ],
+    "semi": [ "error", "always" ],
+    "graphql/template-strings": ["error", {
+      "env": "apollo"
+    }],
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-noninteractive-tabindex": "off"
+  }
+}

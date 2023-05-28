@@ -46,7 +46,15 @@ const updatePost = async ({ post = {} }, { models, me }) => {
   }
 };
 
-const getPost = async (id, { models, me }) => {
+const post = async (id, { models, me }) => {
+  const { id: user_id } = me || {};
+  if (!user_id) {
+    return AuthenticationError;
+  }
+  return await getPostById(id, models);
+};
+
+const posts = async (id, { models, me }) => {
   const { id: user_id } = me || {};
   if (!user_id) {
     return AuthenticationError;
@@ -76,6 +84,7 @@ const deletePost = async (id, { models, me }) => {
 module.exports = {
   createPost,
   updatePost,
-  getPost,
+  post,
+  posts,
   deletePost,
 };

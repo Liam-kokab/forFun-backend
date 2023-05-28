@@ -5,9 +5,9 @@ const postSchema = require('./post-schema');
 
 const linkSchema = gql`
     type Query {        
-        user(id: String!): User
-
-        post(id: String!): Post
+        user: User
+        post(id: ID!): Post
+        posts(page: Int): Post
     }
     type Mutation {        
         signUp(user: UserInput): User

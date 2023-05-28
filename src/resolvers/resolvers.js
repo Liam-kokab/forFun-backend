@@ -1,13 +1,14 @@
-const { signIn, signUp } = require('./user-resolver');
-const { createPost, getPost, updatePost } = require('./post-resolver');
+const { signIn, signUp, user } = require('./user-resolver');
+const { createPost, post, posts, updatePost } = require('./post-resolver');
 
 const resolvers = {
   Query: {
     // user query resolvers
-    user: async (_, { id }, { models }) => await models.User.findById(id),
+    user,
 
     // element query resolvers
-    post: async (_, { id }, context) => await getElement(id, context),
+    post,
+    posts,
   },
   Mutation: {
     // user mutation resolvers

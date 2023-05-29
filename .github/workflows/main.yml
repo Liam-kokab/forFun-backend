@@ -8,24 +8,17 @@ on:
   push:
     branches: [ master ]
 
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout
         uses: actions/checkout@v3
 
-      # Remove old server
-      - name: Deploy in EC2
+      - name: Remove old server files
         env:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY  }}
           HOSTNAME: ${{ secrets.HOSTNAME  }}
@@ -48,8 +41,7 @@ jobs:
           source: "src/*,package.json,package-lock.json,.env"
           target: "server"
 
-      # Runs a single command using the runners shell
-      - name: Deploy in EC2
+      - name: Run new server
         env:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY  }}
           HOSTNAME : ${{ secrets.HOSTNAME  }}

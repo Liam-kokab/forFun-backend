@@ -25,7 +25,7 @@ jobs:
           username: ${{ secrets.USER_KEY }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "src/*,package.json,package-lock.json,.env"
-          target: "/myTmp"
+          target: "myTmp"
 
       - name: Run new server
         env:

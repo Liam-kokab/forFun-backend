@@ -34,9 +34,10 @@ jobs:
           username: ${{ secrets.USER_KEY }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            node -v
             rm -rf "server"
             mkdir "server"
             mv myTmp/* server/
             cd server
-            npm install --production
+            npm install
             npm start

@@ -28,18 +28,15 @@ jobs:
           target: "myTmp"
 
       - name: Run new server
-        env:
-          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY  }}
-          HOSTNAME : ${{ secrets.HOSTNAME  }}
-          USER_NAME : ${{ secrets.USER_KEY  }}
-
-        run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -i private_key ${USER_NAME}@${HOSTNAME} '
-            rm -rf "server" &&
-            mkdir "server" &&
-            mv myTmp/* server/ &&
-            cd server &&
-            npm install --production &&
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOSTNAME }}
+          username: ${{ secrets.USER_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            rm -rf "server"
+            mkdir "server"
+            mv myTmp/* server/
+            cd server
+            npm install --production
             npm start
-          '

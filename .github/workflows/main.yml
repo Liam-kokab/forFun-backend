@@ -41,5 +41,5 @@ jobs:
             mv myTmp/* server/
             cd server
             npm install --production
-            node src/index.js
+            npm start
           '

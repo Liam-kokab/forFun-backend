@@ -45,8 +45,8 @@ jobs:
           host: ${{ secrets.HOSTNAME }}
           username: ${{ secrets.USER_KEY }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "/"
-          target: "/server"
+          source: "src/*,package.json,package-lock.json,.env"
+          target: "server"
 
       # Runs a single command using the runners shell
       - name: Deploy in EC2

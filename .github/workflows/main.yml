@@ -21,7 +21,32 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Remove old server
+      - name: Deploy in EC2
+        env:
+          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY  }}
+          HOSTNAME: ${{ secrets.HOSTNAME  }}
+          USER_NAME: ${{ secrets.USER_KEY  }}
+
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+            pm2 delete all
+            rm -rf server
+            mkdir server
+          '
+
+      - name: Copy folder content recursively to remote
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: *
+          target: /server
+          host: ${{ secrets.HOSTNAME }}
+          username: ${{ secrets.USER_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       # Runs a single command using the runners shell
       - name: Deploy in EC2
@@ -33,25 +58,7 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
-          
-            #Now we have got the access of EC2 and we will start the deploy .
-            DIR="/home/ec2-user/server"
-            pm2 delete all
-            cd /home/ec2-user
-          
-            if [ ! -d $DIR ]
-            then
-              mkdir server &&
-              git clone https://github.com/CodePanthers/node-aws-ec2-github-actions.git server &&
-              cd server &&
-              npm i
-            else
-              cd server
-            fi
-          
-            git checkout master &&
-            git fetch --all &&
-            git reset --hard origin/master &&
-            git pull origin master &&
+            cd server &&
+            npm install &&
             pm2 start index.js
           '

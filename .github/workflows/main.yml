@@ -25,7 +25,7 @@ jobs:
           username: ${{ secrets.USER_KEY }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "src/*,package.json,package-lock.json,.env"
-          target: "/tmp"
+          target: "/myTmp"
 
       - name: Run new server
         env:
@@ -37,9 +37,9 @@ jobs:
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
             pm2 delete all
-            rm -rf "/server"
-            mkdir "/server"
-            mv /tmp/* /server/
+            rm -rf "server"
+            mkdir "server"
+            mv myTmp/* server/
             cd server
             npm install --production
             pm2 start index.js

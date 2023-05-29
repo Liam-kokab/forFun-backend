@@ -42,4 +42,4 @@ jobs:
             cd server &&
             npm install --production &&
             npm start
-          '
+            '

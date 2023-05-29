@@ -39,14 +39,14 @@ jobs:
             mkdir server
           '
 
-      - name: Copy folder content recursively to remote
-        uses: garygrossgarten/github-action-scp@release
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.4
         with:
-          local: /
-          target: /server
           host: ${{ secrets.HOSTNAME }}
           username: ${{ secrets.USER_KEY }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "/"
+          target: "/server"
 
       # Runs a single command using the runners shell
       - name: Deploy in EC2

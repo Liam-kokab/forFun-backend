@@ -35,15 +35,11 @@ jobs:
 
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
-            nvm install 16 &&
-            nvm use 16 &&
-            node -v &&
-            npm -v &&
+          ssh -i private_key ${USER_NAME}@${HOSTNAME} '
             rm -rf "server" &&
             mkdir "server" &&
             mv myTmp/* server/ &&
             cd server &&
             npm install --production &&
             npm start
-            '
+          '

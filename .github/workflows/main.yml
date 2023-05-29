@@ -39,7 +39,7 @@ jobs:
             mkdir server
           '
 
-      - name: copy file via ssh password
+      - name: Copy file via ssh
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.HOSTNAME }}
@@ -56,7 +56,8 @@ jobs:
           USER_NAME : ${{ secrets.USER_KEY  }}
 
         run: |
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+          echo "$PRIVATE_KEY" > private_key_2 && chmod 600 private_key_2
+          ssh -o StrictHostKeyChecking=no -i private_key_2 ${USER_NAME}@${HOSTNAME} '
             cd server &&
             npm install &&
             pm2 start index.js

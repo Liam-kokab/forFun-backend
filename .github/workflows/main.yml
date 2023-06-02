@@ -18,16 +18,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Rename .env.prod to .env
-        run: mv .env.prod .env
-
       - name: Copy file via ssh
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.HOSTNAME }}
           username: ${{ secrets.USER_KEY }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "src/*,package.json,package-lock.json,.env"
+          source: "src/*,package.json,package-lock.json,prod.env,index.js"
           target: "myTmp"
 
       - name: Run new server
@@ -44,5 +41,6 @@ jobs:
             mkdir "server"
             mv myTmp/* server/
             cd server
+            mv prod.env .env
             npm install
             npm start

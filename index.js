@@ -5,7 +5,7 @@ const { expressMiddleware } = require('@apollo/server/express4');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-const { getApolloServer, sequelize, context } = require('./apollo-server');
+const { getApolloServer, sequelize, context } = require('./src/apollo-server');
 
 const main = async () => {
 

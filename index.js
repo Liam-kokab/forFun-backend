@@ -15,6 +15,10 @@ const main = async () => {
   const apolloServer = getApolloServer(httpServer);
   await apolloServer.start();
 
+  app.use('/ping', (req, res) => {
+    res.send('pong');
+  });
+
   app.use('/graphql', cors(), bodyParser.json(), expressMiddleware(apolloServer, { context }));
 
   const nukeDatabase = false;

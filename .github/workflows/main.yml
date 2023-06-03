@@ -43,7 +43,6 @@ jobs:
             cd server
             mv prod.env .env
             npm install
-            npm install pm2@latest -g
             pm2 kill
-            pm2 update
+            npm install pm2@latest -g
             pm2 start index.js
